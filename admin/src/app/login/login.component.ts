@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { LibraryService } from '../services/library.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,7 @@ export class LoginComponent {
   type:string = 'password';
   eyeIcon:string = 'visibility_off';
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, public libraryService : LibraryService,private  router: Router) {}
 
   ngOnInit(): void{
     this.loginForm = this.fb.group({
@@ -34,6 +36,26 @@ export class LoginComponent {
   onSubmit(){
     if(this.loginForm.valid){
       console.log("OTTIMO");
+      console.log(this.loginForm.value.email);
+      console.log(this.loginForm.value.password);
+      let request = this.libraryService.inviaRichiesta('POST', '/api/login',  
+				{ 
+          "username": this.loginForm.value.email,
+				  "password": this.loginForm.value.password
+				}
+			);
+      request.then((response) => {				
+        this.router.navigate(['/home']);
+      })		
+			request.catch((err) => {
+				if(err.response.status == 401){
+					//errore
+					console.log(err.response.data)
+				}
+				else{
+					this.libraryService.errore(err); 
+				}
+			});
     }
     else{
       console.log('Please enter valid credentials');
