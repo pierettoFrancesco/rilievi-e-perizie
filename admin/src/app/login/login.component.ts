@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LibraryService } from '../services/library.service';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ export class LoginComponent {
   loginForm!: FormGroup;
   type:string = 'password';
   eyeIcon:string = 'visibility_off';
+  error : string = '';
 
   constructor(private fb: FormBuilder, public libraryService : LibraryService,private  router: Router) {}
 
@@ -41,16 +43,25 @@ export class LoginComponent {
       let request = this.libraryService.inviaRichiesta('POST', '/api/login',  
 				{ 
           "username": this.loginForm.value.email,
-				  "password": this.loginForm.value.password
+				  "password": this.loginForm.value.password,
+          "admin":true
 				}
 			);
-      request.then((response) => {				
+      request.then((response) => {		
+        console.log(response.data);		
         this.router.navigate(['/home']);
       })		
 			request.catch((err) => {
 				if(err.response.status == 401){
 					//errore
 					console.log(err.response.data)
+          this.error = err.response.data;
+          this.loginForm = this.fb.group({
+            email: ['',[Validators.required, Validators.email]],
+            password: ['',Validators.required]
+          });
+          this.showAlert();
+
 				}
 				else{
 					this.libraryService.errore(err); 
@@ -58,12 +69,11 @@ export class LoginComponent {
 			});
     }
     else{
-      console.log('Please enter valid credentials');
       this.validateAllFormFields(this.loginForm);
     }
   }
 
-  private validateAllFormFields(formGroup: FormGroup){
+  validateAllFormFields(formGroup: FormGroup){
     Object.keys(formGroup.controls).forEach(field => {
       console.log(field, "campo");
       const control = formGroup.get(field);
@@ -74,6 +84,15 @@ export class LoginComponent {
       else if(control instanceof FormGroup){
        this.validateAllFormFields(control);
       }
+    });
+  }
+
+  showAlert(){
+    swal.fire({
+      title: 'Errore!',
+      text: this.error,
+      icon: 'error',
+      confirmButtonText: 'OK'
     });
   }
 }

@@ -1,0 +1,8 @@
+.wrapper{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: calc(100% - 280px);
+    height: 100svh;
+    background-color: #EDF2F7;
+}

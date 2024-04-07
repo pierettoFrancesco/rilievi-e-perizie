@@ -1,0 +1,32 @@
+<div class="navbar">
+    <div class="title">
+        <mat-icon>car_crash</mat-icon>
+        <span>rilievi e perizie</span>
+    </div>
+    <ul class="navbar-list">
+        <li class="navbar-item" [ngClass]="{active: active == 'home'}" (click)="getClass('home')">
+            <span>
+                <mat-icon>home</mat-icon>
+                <a class="navbar-link" routerLink="/home/main">Home</a>
+            </span>
+        </li>
+        <li class="navbar-item" [ngClass]="{active: active == 'map'}" (click)="getClass('map')">
+            <span>
+                <mat-icon>map</mat-icon>
+                <a class="navbar-link" routerLink="/map" >Mappa</a>
+            </span>
+        </li>
+        <li class="navbar-item" [ngClass]="{active: active == 'users'}" (click)="getClass('users')">
+            <span>
+                <mat-icon>person</mat-icon>
+                <a class="navbar-link" routerLink="/users" >Utenti</a>
+            </span>
+        </li>
+    </ul>
+    <div class="log-out">
+        <span>
+            <mat-icon>logout</mat-icon>
+            <a class="navbar-link" routerLink="/home" routerLinkActive="active">Log Out</a>
+        </span>
+    </div>
+</div>

@@ -8,12 +8,16 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
+import { VerticalNavbarComponent } from './home/vertical-navbar/vertical-navbar.component';
+import { MainComponent } from './home/main/main.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    VerticalNavbarComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,

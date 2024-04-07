@@ -1,0 +1,11 @@
+.wrapper{
+    height: 100svh;
+    width:100svw;
+    position: relative;
+}
+
+app-vertical-navbar{
+    position: absolute;
+    left: 0;
+    bottom:0;
+}
