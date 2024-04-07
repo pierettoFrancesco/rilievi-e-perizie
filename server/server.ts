@@ -317,7 +317,8 @@ app.post("/api/newMail", async(req:any, res:any, next:any) => {
 
 app.post("/api/recuperaPwd", async(req:any, res:any, next:any) => {
     let username = "f.pieretto.2292@vallauri.edu";
-    message = message.replace("__user", username).replace("__password", "password");
+    let mail = req.body.email;
+    message = message.replace("__user", mail).replace("__password", "password");
 
     const accessToken = await OAuth2Client.getAccessToken().catch((err) => res.status(500).send("Errore richiesta access token a Google " + err)); //restituisce una promise
     console.log(accessToken);
@@ -339,7 +340,7 @@ app.post("/api/recuperaPwd", async(req:any, res:any, next:any) => {
     });
     let mailOptions ={
         "from": auth.user, 
-        "to":username,
+        "to":mail,
         "subject": "Nuova password di accesso",
         //"html": req.body.message
         "html": message,
@@ -348,14 +349,34 @@ app.post("/api/recuperaPwd", async(req:any, res:any, next:any) => {
             "path":"./qrCode.png"
         }]
     }
-    transporter.sendMail(mailOptions, function(err, info){
+    transporter.sendMail(mailOptions,function(err, info){
         if(err){
             res.status(500).send("Errore invio mail:\n"+err.message);
         }
         else{
-            res.send("Ok") //ci vuole un JSON, ma stringa e' JSON valido
+           res.send("Ok") //ci vuole un JSON, ma stringa e' JSON valido
         }
     });
+
+    
+    let client = new MongoClient(connectionString);
+    await client.connect();
+    const collection = client.db(DBNAME).collection("utenti");
+    let regex = new RegExp("^"+mail+"$", "i");
+
+    let newPassword = _bcryptjs.hashSync("password", 10);
+    let rq = collection.updateOne({"username":regex}, {"$set": {"password": newPassword, "firstAccess": true}});
+    rq.then((data)=>{
+        console.log("Password recuperata");
+    })
+    rq.catch((err)=>{
+        console.log("Errore aggiornamento password "+ err.message);
+        client.close();
+    })
+    rq.finally(()=>{
+        client.close();
+    })
+    
 })
 
 

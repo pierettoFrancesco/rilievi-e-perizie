@@ -95,4 +95,30 @@ export class LoginComponent {
       confirmButtonText: 'OK'
     });
   }
+
+  recuperaPwd(){
+    swal.fire({
+      title: 'Recupero password',
+      text: 'Inserisci la tua email',
+      input: 'email',
+      inputAttributes: {
+        autocapitalize: 'off'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Recupera',
+      showLoaderOnConfirm: true,
+      preConfirm: (email) => {
+        console.log(email);
+        let request = this.libraryService.inviaRichiesta('POST', '/api/recuperaPwd',{"email":email, "skipCheckToken":true});
+        request.then((response) => {
+          console.log(response.data);
+          swal.fire('Email inviata', 'Controlla la tua casella di posta', 'success');
+        });
+        request.catch((err) => {
+          console.log(err);
+          swal.fire('Errore', "Errore nell'invio dell'email", 'error');
+        });
+      }
+      });
+  }
 }

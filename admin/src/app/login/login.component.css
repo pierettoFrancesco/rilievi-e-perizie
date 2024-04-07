@@ -8,7 +8,7 @@
 
 .login-container{
     width: 400px;
-    height: 500px;
+    height: 350px;
     background-color: #fafafa;
     border-radius: 10px;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
@@ -112,6 +112,10 @@
     color: rgba(82, 82, 82, 0.7);
 }
 
+.eye{
+    cursor: pointer;
+}
+
 small{
     color:red;
     font-size:0.8rem;
@@ -128,13 +132,14 @@ small{
     margin-top:1rem;
 }
 
-.forgetPwd a, .signUp a{
+.forgetPwd span, .signUp a{
     text-decoration: none;
     color:#ff7514;
     font-weight: 600;
     font-size: 0.9rem;
     letter-spacing: 0.5px;
     margin-left: 0.5rem;
+    cursor: pointer;
 }
 
 .row-button {

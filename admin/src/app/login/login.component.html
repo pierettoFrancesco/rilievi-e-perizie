@@ -26,18 +26,18 @@
                 <input formControlName="password" [type]="type" placeholder="password">
               </div>
               <span (click) = "showHidePwd()">
-                <mat-icon>{{eyeIcon}}</mat-icon> 
+                <mat-icon class="eye">{{eyeIcon}}</mat-icon> 
               </span>
             </div>
           </div>
           <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">*Password obbligatoria</small>
           <div class="forgetPwd">
-            <a href="#">Password dimenticata?</a>
+            <span href="#" (click)="recuperaPwd()">Password dimenticata?</span>
           </div>
           <div class="row-button">
             <button (click)="onSubmit()" type="submit">accedi</button>
           </div>
-          <div class="row-line">
+          <!--<div class="row-line">
             <p>o</p>
           </div>
           <div class="row-button-google">
@@ -50,7 +50,7 @@
           </div>
           <div class="signUp">
             <p>Non hai un account? <a href="#">Registrati</a></p>
-          </div>
+          </div>-->
         </form>
 
       </div>
