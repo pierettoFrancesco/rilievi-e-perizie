@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { VerticalNavbarComponent } from './home/vertical-navbar/vertical-navbar.component';
 import { MainComponent } from './home/main/main.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MainComponent } from './home/main/main.component';
     MatIconModule,
     ReactiveFormsModule,
     FormsModule,
+    GoogleMapsModule
   ],
   providers: [
     provideAnimationsAsync()

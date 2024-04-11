@@ -274,39 +274,41 @@ app.use("/api/",(req:any, res:any, next:any)=>{
     res.send("Richiesta ricevuta correttamente");
 });*/
 
-app.get("/api/elencoMail", async(req:any, res:any) => {
+app.patch("/api/changePwd", async(req:any, res:any) => {
     let username = req["payload"]["username"];
+    let pwd = req["payload"]["password"];
+    let client = new MongoClient(connectionString);
+    
+    await client.connect();
+    const collection = client.db(DBNAME).collection("utenti");
+    let regex = new RegExp("^"+username+"$", "i");
+
+    let newPassword = _bcryptjs.hashSync(pwd, 10);
+    let rq = collection.updateOne({"username":regex}, {"$set": {"password": newPassword, "firstAccess": true}});
+    rq.then((data)=>{
+        console.log("Password aggiornata correttamente");
+    })
+    rq.catch((err)=>{
+        console.log("Errore aggiornamento password "+ err.message);
+        client.close();
+    })
+    rq.finally(()=>{
+        client.close();
+    })
+    
+});
+
+app.get("/api/getPerizie", async(req:any, res:any, next:any) => {
+    
     const client = new MongoClient(connectionString);
     await client.connect();
-    const collection = client.db(DBNAME).collection("mail");
-    let rq = collection.findOne({"username": username}, {"projection" : {"mail":1}});
+    const collection = client.db(DBNAME).collection("perizie");
+    let rq = collection.find({}).toArray();
     rq.then((data)=>{
         res.send(data);
     })
     rq.catch((err)=>{
         res.status(500).send("Errore esecuzione query "+ err.message);
-    })
-    rq.finally(()=>{
-        client.close();
-    })
-});
-
-app.post("/api/newMail", async(req:any, res:any, next:any) => {
-    let mittente = req["payload"]["username"];
-    let mail = req.body.mail;
-    mail["from"] = mittente;
-    let destinatario = mail.to;
-    delete mail.to;
-    console.log(mail);
-    const client = new MongoClient(connectionString);
-    await client.connect();
-    const collection = client.db(DBNAME).collection("mail");
-    let rq = collection.updateOne({"username": destinatario}, {"$push": {"mail": mail}});
-    rq.then((data)=>{
-        res.send({"ris" : "ok"});
-    })
-    rq.catch((err)=>{
-        res.status(500).send("Errore invio mail ");
     })
     rq.finally(()=>{
         client.close();
@@ -318,7 +320,10 @@ app.post("/api/newMail", async(req:any, res:any, next:any) => {
 app.post("/api/recuperaPwd", async(req:any, res:any, next:any) => {
     let username = "f.pieretto.2292@vallauri.edu";
     let mail = req.body.email;
-    message = message.replace("__user", mail).replace("__password", "password");
+    let passwordLength = 8;
+    let randomPassword = generateRandomPassword(passwordLength);
+
+    message = message.replace("__user", mail).replace("__password", randomPassword);
 
     const accessToken = await OAuth2Client.getAccessToken().catch((err) => res.status(500).send("Errore richiesta access token a Google " + err)); //restituisce una promise
     console.log(accessToken);
@@ -364,7 +369,7 @@ app.post("/api/recuperaPwd", async(req:any, res:any, next:any) => {
     const collection = client.db(DBNAME).collection("utenti");
     let regex = new RegExp("^"+mail+"$", "i");
 
-    let newPassword = _bcryptjs.hashSync("password", 10);
+    let newPassword = _bcryptjs.hashSync(randomPassword, 10);
     let rq = collection.updateOne({"username":regex}, {"$set": {"password": newPassword, "firstAccess": true}});
     rq.then((data)=>{
         console.log("Password recuperata");
@@ -379,6 +384,15 @@ app.post("/api/recuperaPwd", async(req:any, res:any, next:any) => {
     
 })
 
+function generateRandomPassword(length: number): string {
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset[randomIndex];
+    }
+    return password;
+}
 
 
 

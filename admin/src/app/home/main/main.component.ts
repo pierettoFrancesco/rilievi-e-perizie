@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { PerizieService } from '../../services/perizie.service';
 
 @Component({
   selector: 'app-main',
@@ -6,7 +7,13 @@ import { Component } from '@angular/core';
   styleUrl: './main.component.css'
 })
 export class MainComponent {
+  constructor(public perizieService : PerizieService) {}
+  position: any = {lat:44.5557763, lng:7.7347183};
 
-  constructor() {}
+   ngOnInit() {
+    this.perizieService.initMap(this.position);
+  }
+    
  
+    
 }

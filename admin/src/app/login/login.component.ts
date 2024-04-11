@@ -49,7 +49,7 @@ export class LoginComponent {
 			);
       request.then((response) => {		
         console.log(response.data);		
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home/main']);
       })		
 			request.catch((err) => {
 				if(err.response.status == 401){
