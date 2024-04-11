@@ -11,3 +11,25 @@
 body{
     background-color: #F8F9FA
 }
+
+#infoWindow>div{
+    font-size: 1.5rem;
+    color: #2D3748;
+    font-weight: bold !important;
+    margin: 0.5rem 0;
+}
+
+#infoWindow p{
+    font-size: 1rem;
+    color: #A0AEC0;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+#infoWindow div:nth-of-type(2){
+    font-size: 0.9rem;
+}
+#infoWindow span{
+    font-size: 0.9rem;
+    font-weight: 400;
+}

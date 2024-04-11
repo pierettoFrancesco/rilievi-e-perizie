@@ -50,9 +50,8 @@ export class PerizieService {
       "zoom":12, 
       "scrollwheel": false, 	//zoom when scroll disable
         "zoomControl": true, 		//show control zoom
-        "mapTypeControlOptions": {
-          "mapTypeIds": ["map_style"]
-        }
+        "disableDefaultUI": true,
+        "fullscreenControl": true,
     });
 
     map.mapTypes.set("map_style", styledMap);
@@ -75,6 +74,27 @@ export class PerizieService {
       "icon": svgMarker
     }
     const marker = new Marker(markerOptions);
+
+    let infoWindowOptions = {
+      "content": 
+      `
+        <div id="infoWindow">
+          <div>Sede</div>
+          <p>Indirizzo: Via San Michele 68, Fossano</p>
+          <div>
+          <div>Coordinate</div>
+          <span>Latitudine: <strong>${position["lat"]}</strong></span>
+          <br>
+          <span>Longitudine: <strong>${position["lng"]}</strong></span>
+          </div>
+        </div>
+      `
+    }
+  
+    let infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+    marker.addListener("click", () => {
+      infoWindow.open(map, marker);
+    });
     
     //Add all the markers
     let rq = this.libraryService.inviaRichiesta("get", "/api/getPerizie");
@@ -93,7 +113,6 @@ export class PerizieService {
 
   async addMarker(perizia : any, map : any){
     const {Marker} = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
-
     
     let markerOptions = {
       "map": map,

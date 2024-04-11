@@ -7,20 +7,132 @@
     background-color: #EDF2F7;
 }
 .container{
-    width:90%;
+    width:95%;
     height: 90%;
     display: grid;
     grid-template-columns: 4fr 1fr;
+    padding: 2rem;
+    gap: 3rem;
 }
 .container-map{
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
-
+    background-color: #fff;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+.container-map .text{
+    width: 98%;
 }
 .mapContainer{
-    width: 300px;
-    height: 300px;
+    width:98%;
+    height: 98%;
+    border-radius: 10px;
+    margin: 0.2rem auto;
+    margin-bottom: 0.6rem;
 }
+
+.text{
+    display: flex;
+    width: 100%;
+    margin-left: 0.5rem;
+}
+
+.text > span{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    margin:0.5rem 0;
+}
+
+.text span mat-icon{
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius:15px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+    color:#fff;
+    background-color: #4FD1C5;
+}
+
+.text span span{
+    width: 100%;
+    font-size:1rem;
+    color:#2D3748;
+    font-weight: bold;
+}
+
+.container-filter{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+.container-filter .select-parent{
+    width: 90%;
+    margin: 0.5rem auto;
+    padding: 0.6em;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+    background: #313860;
+    background: linear-gradient(60deg, #313860 14%, #151928 86%);
+    font-size: 1rem;
+    color: #ffffff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    
+}
+
+.select-parent span{
+    width:90%;
+}
+
+.select-parent mat-icon{
+    transition: all 0.3s ease-in-out;
+}
+
+.option-parent{
+    width:95%;
+    margin: 0.1rem auto;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #fff;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+    color: #A0AEC0;
+    border-radius: 10px;
+}
+.option-parent div{
+    width: 100%;
+    padding: 0.2rem 0.5rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: flex-start;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.option-parent div:hover{
+   color:#2D3748;
+   background-color: #EDF2F7;
+}
+
+.rotate{
+    transform: rotate(180deg);
+    transition: all 0.3s ease-in-out;
+}
+
