@@ -129,20 +129,24 @@ export class PerizieService {
 
     let infoWindowOptions = {
       "content": 
-		`
-		<div class="info-window">
-			<h2>Perizia ${perizia._id}</h2>
-				<ul>
-						<li>Codice operatore: ${perizia.codiceOp}</li>
-						<li>Data e ora perizia: ${perizia.data}</li>
-						<li>Coordinate: ${perizia.coordinate.lat} - ${perizia.coordinate.lng}</li>
-						<li>Descrizione: ${perizia.descrizione}</li>
-				</ul>
-      <button class="edit-button" onclick="showGallery(${perizia._id})">Galleria</button>
-			<button class="edit-button" onclick="editPerizia(${perizia._id})">Modifica perizia</button>
-			<button class="edit-button" onclick="showRoute(${perizia._id})">Visualizza percorso</button>
-		</div>
-	 	`
+      `
+      <div id="info-window">
+        <div class="title">Perizia</div>
+        <p>Perizia n° <span>${perizia._id}</span></p>
+        <ul>
+            <li><span>Cod. op.:</span> ${perizia.codiceOp}</li>
+            <li><span>Data e ora perizia:</span> ${perizia.data}</li>
+            <li><span>Coordinate: </span>${perizia.coordinate.lat} - ${perizia.coordinate.lng}</li>
+            </br>
+            <li><div>Descrizione: </div>${perizia.descrizione}</li>
+        </ul>
+        <div class="buttons">
+          <button class="edit-button" onclick="showGallery(${perizia._id})">Galleria</button>
+          <button class="edit-button" onclick="editPerizia(${perizia._id})">Modifica perizia</button>
+          <button class="edit-button" onclick="showRoute(${perizia._id})">Visualizza percorso</button>
+        </div>
+      </div>
+      `
     }
 
     let infoWindow = new google.maps.InfoWindow(infoWindowOptions);

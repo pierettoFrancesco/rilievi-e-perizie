@@ -33,3 +33,47 @@ body{
     font-size: 0.9rem;
     font-weight: 400;
 }
+
+#info-window .title{
+    font-size: 1.5rem;
+    color: #2D3748;
+    font-weight: bold !important;
+    margin: 0.5rem 0;
+}
+
+#info-window p, #info-window li span, #info-window li div {
+    font-size: 0.9rem !important;
+    color: #A0AEC0;
+    font-weight: 500;
+    margin: 0.5rem 0;
+}
+
+#info-window p span, #info-window li{
+    font-size: 1rem;
+    font-weight: bold;
+    color: #2D3748;
+}
+#info-window li div{
+    margin-bottom: 0 !important;
+}
+
+#info-window li:last-of-type{
+    font-size: 0.8rem;
+}
+#info-window .buttons{
+    display: flex;
+    flex-wrap: wrap;
+    gap:0.2rem;
+}
+#info-window button{
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4FD1C5;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+}
