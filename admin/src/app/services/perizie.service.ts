@@ -6,11 +6,12 @@ import { LibraryService } from './library.service';
 })
 export class PerizieService {
   perizie!:any;
+  totPerizie!:number;
   constructor(public libraryService : LibraryService) { 
     
   }
 
-  async initMap(position : any){
+  async initMap(position : any, filters : string){
     const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
     const {Marker} = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
 
@@ -97,10 +98,14 @@ export class PerizieService {
     });
     
     //Add all the markers
-    let rq = this.libraryService.inviaRichiesta("get", "/api/getPerizie");
+    let rq = this.libraryService.inviaRichiesta("get", "/api/getPerizie", {filters});
     rq.then((response) => {
-      this.perizie = response["data"];
-      for (const perizia of this.perizie) {
+      if(!this.perizie){
+        this.perizie = response["data"];
+        this.totPerizie = this.perizie.length;
+      }
+        
+      for (const perizia of response["data"]) {
         this.addMarker(perizia, map); 
       }
 
@@ -121,5 +126,28 @@ export class PerizieService {
       "icon": "../assets/marker.svg"
     }
     const marker = new Marker(markerOptions);
+
+    let infoWindowOptions = {
+      "content": 
+		`
+		<div class="info-window">
+			<h2>Perizia ${perizia._id}</h2>
+				<ul>
+						<li>Codice operatore: ${perizia.codiceOp}</li>
+						<li>Data e ora perizia: ${perizia.data}</li>
+						<li>Coordinate: ${perizia.coordinate.lat} - ${perizia.coordinate.lng}</li>
+						<li>Descrizione: ${perizia.descrizione}</li>
+				</ul>
+      <button class="edit-button" onclick="showGallery(${perizia._id})">Galleria</button>
+			<button class="edit-button" onclick="editPerizia(${perizia._id})">Modifica perizia</button>
+			<button class="edit-button" onclick="showRoute(${perizia._id})">Visualizza percorso</button>
+		</div>
+	 	`
+    }
+
+    let infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+    marker.addListener("click", () => {
+      infoWindow.open(map, marker);
+    });
   }
 }

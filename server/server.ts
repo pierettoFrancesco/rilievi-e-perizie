@@ -303,7 +303,14 @@ app.get("/api/getPerizie", async(req:any, res:any, next:any) => {
     const client = new MongoClient(connectionString);
     await client.connect();
     const collection = client.db(DBNAME).collection("perizie");
-    let rq = collection.find({}).toArray();
+    let rq : any;
+    if(req["query"]["filters"]=="tutti"){
+        rq = collection.find({}).toArray();
+    }
+    else{
+        let regex = new RegExp("^"+req["query"]["filters"]+"$", "i");
+        rq = collection.find({"codiceOp":regex}).toArray();
+    }
     rq.then((data)=>{
         res.send(data);
     })

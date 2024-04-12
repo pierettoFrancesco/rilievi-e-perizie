@@ -13,7 +13,7 @@ export class MainComponent {
   position: any = {"lat":44.5557763, "lng":7.7347183};
 
   ngOnInit() {
-    this.perizieService.initMap(this.position);
+    this.perizieService.initMap(this.position, this.filter);
   }
 
   openMenu(){
@@ -23,6 +23,7 @@ export class MainComponent {
   changeFilter(perizia: string){
     this.filter = perizia;
     this.isOpen = false;
+    this.perizieService.initMap(this.position, this.filter);
   }
  
     
