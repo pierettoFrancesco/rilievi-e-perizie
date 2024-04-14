@@ -151,7 +151,7 @@ export class PerizieService{
         </ul>
         <div class="buttons">
           <button class="edit-button" (click)="showGallery(${perizia._id})">Galleria</button>
-          <button class="edit-button" onclick="editPerizia(${perizia._id})">Modifica perizia</button>
+          <button class="edit-button" id="edit-${perizia._id}">Modifica perizia</button>
           <button class="edit-button" id="route-${perizia._id}" >Visualizza percorso</button>
         </div>
       </div>

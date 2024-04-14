@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { PerizieService } from '../../services/perizie.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-main',
@@ -18,16 +19,17 @@ export class MainComponent {
 
     
     document.addEventListener("click", async (e) => {
+      this.perizieService.selectedPerizia =this.perizieService.perizie.find((perizia: any) => perizia._id == (e.target as HTMLElement).id.split("-")[1]);
         if((e.target as HTMLElement).id.startsWith("route")){
-          console.log("route");
-          this.perizieService.selectedPerizia =this.perizieService.perizie.find((perizia: any) => perizia._id == (e.target as HTMLElement).id.split("-")[1]);
-          console.log(this.perizieService.selectedPerizia)
           await this.perizieService.showRoute(this.position);
-          console.log(this.perizieService.isShowFilter);
           if (this.perizieService.isShowFilter == true){
             this.perizieService.isShowFilter = false;
-            console.log("hide");
-            console.log(this.perizieService.isShowFilter);
+          }  
+        }
+        else if((e.target as HTMLElement).id.startsWith("edit")){
+          if (this.perizieService.isShowFilter == true){
+            this.perizieService.isShowFilter = false;
+            
           }  
         }
     });
@@ -44,7 +46,7 @@ export class MainComponent {
     this.perizieService.initMap(this.position, this.filter);
   }
 
-  showPath(){
+  showFilters(){
     this.perizieService.isShowFilter = true;
     this.filter = 'tutti';
     this.perizieService.initMap(this.position, this.filter);

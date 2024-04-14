@@ -141,7 +141,7 @@
     cursor: pointer;
     background-color: #4FD1C5;
     height: 4rem;
-    border-radius: 25px;
+    border-radius: 10px;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
     background: #313860;
     background: linear-gradient(60deg, #313860 14%, #151928 86%);

@@ -391,22 +391,6 @@ app.post("/api/recuperaPwd", async(req:any, res:any, next:any) => {
     
 })
 
-app.get("/api/getPeriziaById", async(req:any, res:any, next:any) => {
-    let id = new ObjectId(req["query"]["id"] as string);
-    const client = new MongoClient(connectionString);
-    await client.connect();
-    const collection = client.db(DBNAME).collection("perizie");
-    let rq = collection.findOne({"_id":id});
-    rq.then((data)=>{
-        res.send(data);
-    })
-    rq.catch((err)=>{
-        res.status(500).send("Errore esecuzione query "+ err.message);
-    })
-    rq.finally(()=>{
-        client.close();
-    })
-})
 
 function generateRandomPassword(length: number): string {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";

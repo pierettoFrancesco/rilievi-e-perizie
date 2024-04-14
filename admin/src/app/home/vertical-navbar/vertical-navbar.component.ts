@@ -1,4 +1,5 @@
 import { Component, ElementRef} from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vertical-navbar',
@@ -7,10 +8,15 @@ import { Component, ElementRef} from '@angular/core';
 })
 export class VerticalNavbarComponent {
   active:string = 'home';
-  constructor() {}
+  constructor(private router : Router) {}
 
   getClass(item:string){
     this.active = item;
     console.log(this.active);
+  }
+
+  logOut(){
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 }
