@@ -10,30 +10,52 @@
             <div id="mapContainer" class="mapContainer">
             </div>
         </div>
-        <div class="container-filter">
-            <div class="text">
-                <span>
-                    <mat-icon>filter_alt</mat-icon>
-                    <span>Filtri</span>
-                </span>
-            </div>
-            <div class="select-parent" (click)="openMenu()">
-               <span>{{filter}}</span>
-               <mat-icon [ngClass]="{rotate: isOpen}">arrow_drop_down</mat-icon>
-            </div>
-            @if(isOpen){
-                <div class="option-parent">
-                    @if(filter != 'tutti'){
-                        <div (click)="changeFilter('tutti')">tutti</div>
-                    }
-                    @for (perizia of this.perizieService.perizie; track perizia._id) {
-                        @if(filter != perizia.codiceOp){
-                            <div (click)="changeFilter(perizia.codiceOp)" >{{ perizia.codiceOp }}</div>
-                        }
-                    }
+        
+        @if(this.perizieService.isShowFilter){
+            <div class="container-filter">
+                <div class="text">
+                    <span>
+                        <mat-icon>filter_alt</mat-icon>
+                        <span>Filtri</span>
+                    </span>
                 </div>
-            }
-        </div>
+                <div class="select-parent" (click)="openMenu()">
+                   <span>{{filter}}</span>
+                   <mat-icon [ngClass]="{rotate: isOpen}">arrow_drop_down</mat-icon>
+                </div>
+                @if(isOpen){
+                    <div class="option-parent">
+                        @if(filter != 'tutti'){
+                            <div (click)="changeFilter('tutti')">tutti</div>
+                        }
+                        @for (perizia of this.perizieService.perizie; track perizia._id) {
+                            @if(filter != perizia.codiceOp){
+                                <div (click)="changeFilter(perizia.codiceOp)" >{{ perizia.codiceOp }}</div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        }
+        @else{
+            <div class="container-path">
+                <div class="text">
+                    <span>
+                        <mat-icon>route</mat-icon>
+                        <span>Percorso</span>
+                    </span>
+                </div>
+                <div class="path-parent">
+                    <div>Distanza :<span>{{this.perizieService.distance}}</span></div>
+                    <div>Durata :<span>{{this.perizieService.time}}</span></div>
+                </div>
+                <div class="button-parent">
+                    <button (click)="showPath()">Chiudi percorso</button>
+                </div>
+            </div>
+        }
+        
+
         <div class="container-tot">
             <div class="text">
                 <span>

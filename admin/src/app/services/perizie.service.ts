@@ -1,21 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { LibraryService } from './library.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PerizieService {
-  perizie!:any;
+export class PerizieService{
+  
+  public perizie!:any;
   totPerizie!:number;
-  constructor(public libraryService : LibraryService) { 
-    
-  }
-
-  async initMap(position : any, filters : string){
-    const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
-    const {Marker} = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
-
-    var styles = [
+  selectedPerizia!:any;
+  map!:any;
+  distance!:any;
+  time!:any;
+  isShowFilter:boolean = true;
+  styles = [
     {
         stylers: [
           { hue: "#00ffe6" },
@@ -44,7 +42,17 @@ export class PerizieService {
             { visibility: "off" }
            ]
          }];
-    var styledMap = new google.maps.StyledMapType(styles, {name: "Mappa"});
+  
+  constructor(public libraryService : LibraryService) { 
+    
+  }
+ 
+  async initMap(position : any, filters : string){
+    const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
+    const {Marker} = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
+
+    
+    var styledMap = new google.maps.StyledMapType(this.styles, {name: "Mappa"});
 
     const map = new Map(document.getElementById("mapContainer") as HTMLElement, {
       "center": position,
@@ -54,6 +62,7 @@ export class PerizieService {
         "disableDefaultUI": true,
         "fullscreenControl": true,
     });
+    this.map = map;
 
     map.mapTypes.set("map_style", styledMap);
     map.setMapTypeId("map_style");
@@ -141,9 +150,9 @@ export class PerizieService {
             <li><div>Descrizione: </div>${perizia.descrizione}</li>
         </ul>
         <div class="buttons">
-          <button class="edit-button" onclick="showGallery(${perizia._id})">Galleria</button>
+          <button class="edit-button" (click)="showGallery(${perizia._id})">Galleria</button>
           <button class="edit-button" onclick="editPerizia(${perizia._id})">Modifica perizia</button>
-          <button class="edit-button" onclick="showRoute(${perizia._id})">Visualizza percorso</button>
+          <button class="edit-button" id="route-${perizia._id}" >Visualizza percorso</button>
         </div>
       </div>
       `
@@ -154,4 +163,53 @@ export class PerizieService {
       infoWindow.open(map, marker);
     });
   }
+
+  async showRoute(position: any) {
+    const {DirectionsService} = await google.maps.importLibrary("routes") as google.maps.RoutesLibrary;
+    const {DirectionsRenderer} = await google.maps.importLibrary("routes") as google.maps.RoutesLibrary;
+
+    var styledMap = new google.maps.StyledMapType(this.styles, {name: "Mappa"});
+
+    let rendererOptions = {
+      'polylineOptions': {
+        'strokeColor':'#2D3748', //Colore percorso
+        'strokeWeight': 6,		//Spessore percorso
+      }
+    }
+
+    const directionsService = new DirectionsService();
+    const directionsRenderer = new DirectionsRenderer(rendererOptions);
+
+    this.map = new google.maps.Map(document.getElementById("mapContainer") as HTMLElement, {
+      "center": position,
+      "zoom":12, 
+      "scrollwheel": false, 	//zoom when scroll disable
+      "zoomControl": true, 		//show control zoom
+      "disableDefaultUI": true,
+      "fullscreenControl": true,
+    });
+
+    this.map.mapTypes.set("map_style", styledMap);
+    this.map.setMapTypeId("map_style");
+
+    directionsRenderer.setMap(this.map as google.maps.Map);
+
+    directionsService.route({
+      origin: position,
+      destination: this.selectedPerizia.coordinate,
+      travelMode: google.maps.TravelMode.DRIVING,
+      'provideRouteAlternatives': false,
+    }, (response, status) => {
+      if (status === 'OK') {
+        directionsRenderer.setDirections(response);
+        this.distance = response?.routes[0].legs[0].distance?.text;
+        this.time = response?.routes[0].legs[0].duration?.text;
+      } else {
+        window.alert('La richiesta non è riuscita a causa di ' + status);
+      }
+    });
+
+  }
+
 }
+
