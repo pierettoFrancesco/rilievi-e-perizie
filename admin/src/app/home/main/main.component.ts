@@ -16,7 +16,6 @@ export class MainComponent {
 
   ngOnInit() {
     this.perizieService.initMap(this.position, this.filter);
-
     
     document.addEventListener("click", async (e) => {
       this.perizieService.selectedPerizia =this.perizieService.perizie.find((perizia: any) => perizia._id == (e.target as HTMLElement).id.split("-")[1]);
@@ -27,10 +26,10 @@ export class MainComponent {
           }  
         }
         else if((e.target as HTMLElement).id.startsWith("edit")){
-          if (this.perizieService.isShowFilter == true){
-            this.perizieService.isShowFilter = false;
-            
-          }  
+           this.perizieService.isShowEdit = true;
+        }
+        else if((e.target as HTMLElement).id.startsWith("gallery")){
+          this.perizieService.isShowGallery = true;
         }
     });
 

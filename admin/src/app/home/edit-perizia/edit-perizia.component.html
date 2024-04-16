@@ -1,0 +1,47 @@
+<div class="wrapper-edit">
+    <div class="content-edit">
+        <div class="text">
+            <span>
+                <mat-icon>edit</mat-icon>
+                <span>Modifica perizia</span>
+            </span>
+            <span class="close" (click)="closeWindow()">
+                <mat-icon>close</mat-icon>
+            </span>
+        </div>
+        <ul class="list">
+            <li>
+                <span>Cod. perizia:</span> {{perizia._id}}
+            </li>
+            <li>
+                <span>Cod. op.:</span> {{perizia.codiceOp}}
+            </li>
+            <li>
+                <span>Data e ora perizia:</span> {{perizia.data}}
+            </li>
+            <li>
+                <span>Coordinate: </span>{{perizia.coordinate.lat}} - {{perizia.coordinate.lng}}
+            </li>
+            <li class="descr">
+                <span>Descrizione: </span>
+                <textarea [(ngModel)]="descrizione"></textarea>
+            </li>
+        </ul>
+        @if(perizia.photos.length > 0){
+        <div class="imgs">
+            <span>Immagini: </span>
+            <ul>
+                @for (foto of perizia.photos; track perizia.img; let index = $index) {
+                    <li>
+                        <img src="../../../assets/{{foto.img}}" alt="Immagine perizia" style="width: 65px; height:65">
+                        <input type="text" name="immagine-commento-{{foto.img}}" [(ngModel)]="commenti[index]" >
+                    </li>
+                }
+            </ul>
+        </div>
+        }
+        <div class="btn">
+            <span (click)="onSave()">Salva</span>
+        </div>
+    </div>
+</div>

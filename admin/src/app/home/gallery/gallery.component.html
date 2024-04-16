@@ -1,0 +1,22 @@
+<div class="wrapper-gallery">
+    <div class="content-gallery">
+        <div class="text">
+            <span>
+                <mat-icon>photo_camera</mat-icon>
+                <span>Galleria</span>
+            </span>
+            <span class="close" (click)="closeWindow()">
+                <mat-icon>close</mat-icon>
+            </span>
+        </div>
+        <div class="gallery-main">
+            <div class="gallery">
+                @for(image of this.perizieService.selectedPerizia.photos; track this.perizieService.selectedPerizia.img){
+                    <div class="gallery-item">
+                        <img src="../../../assets/{{image.img}}" alt="gallery-image">
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -11,6 +11,8 @@ import { HomeComponent } from './home/home.component';
 import { VerticalNavbarComponent } from './home/vertical-navbar/vertical-navbar.component';
 import { MainComponent } from './home/main/main.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { EditPeriziaComponent } from './home/edit-perizia/edit-perizia.component';
+import { GalleryComponent } from './home/gallery/gallery.component';
 
 @NgModule({
   declarations: [
@@ -18,15 +20,17 @@ import { GoogleMapsModule } from '@angular/google-maps';
     LoginComponent,
     HomeComponent,
     VerticalNavbarComponent,
-    MainComponent
+    MainComponent,
+    EditPeriziaComponent,
+    GalleryComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatIconModule,
     ReactiveFormsModule,
     FormsModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    MatIconModule
   ],
   providers: [
     provideAnimationsAsync()

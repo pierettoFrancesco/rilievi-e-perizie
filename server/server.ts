@@ -391,6 +391,24 @@ app.post("/api/recuperaPwd", async(req:any, res:any, next:any) => {
     
 })
 
+app.patch("/api/updatePerizia", (req, res, next) => {
+    console.log(req.body);
+    const client = new MongoClient(connectionString);
+    client.connect().then(() => {
+        const collection = client.db(DBNAME).collection("perizie");
+        let codperizia = new ObjectId(req.body._id as string);
+        let descrizione = req.body.descrizione;
+        let photos = req.body.photos;
+        // modifica la descrizione, ancora da implementare modifica commenti
+        let rq = collection.updateOne({ "_id": codperizia }, { $set: { "descrizione": descrizione , "photos" : photos} });
+        rq.then((data) => {
+            res.send("ok");
+        });
+        rq.catch((err) => res.status(500).send(`Errore esecuzione query: ${err.message}`));
+        rq.finally(() => client.close());
+    });
+});
+
 
 function generateRandomPassword(length: number): string {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";

@@ -1,5 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { LibraryService } from './library.service';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class PerizieService{
   distance!:any;
   time!:any;
   isShowFilter:boolean = true;
+  isShowEdit:boolean = false;
+  isShowGallery:boolean = false;
   styles = [
     {
         stylers: [
@@ -150,7 +153,7 @@ export class PerizieService{
             <li><div>Descrizione: </div>${perizia.descrizione}</li>
         </ul>
         <div class="buttons">
-          <button class="edit-button" (click)="showGallery(${perizia._id})">Galleria</button>
+          <button class="edit-button" id="gallery-${perizia._id}">Galleria</button>
           <button class="edit-button" id="edit-${perizia._id}">Modifica perizia</button>
           <button class="edit-button" id="route-${perizia._id}" >Visualizza percorso</button>
         </div>
@@ -209,6 +212,24 @@ export class PerizieService{
       }
     });
 
+  }
+
+  updatePerizia(json : any){
+    let rq = this.libraryService.inviaRichiesta("patch", "/api/updatePerizia", json);
+    rq.then((response) => {
+      Swal.fire({
+        title: 'Perizia modificata',
+        text: 'La perizia è stata modificata con successo',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        preConfirm: () => {
+          this.isShowEdit = false;
+        }
+      });
+    });
+    rq.catch((error) => {
+      console.log(error);
+    });
   }
 
 }
