@@ -9,14 +9,37 @@
                 <mat-icon>close</mat-icon>
             </span>
         </div>
-        <div class="gallery-main">
-            <div class="gallery">
-                @for(image of this.perizieService.selectedPerizia.photos; track this.perizieService.selectedPerizia.img){
-                    <div class="gallery-item">
-                        <img src="../../../assets/{{image.img}}" alt="gallery-image">
-                    </div>
-                }
+        @if(this.perizieService.selectedPerizia.photos.length > 0){
+            <div class="gallery-main">
+                <div class="gallery">
+                    @for(image of this.perizieService.selectedPerizia.photos; track this.perizieService.selectedPerizia.img; let index=$index){
+                        <div class="item-content">
+                            <div class="gallery-item">
+                                <img src="../../../assets/{{image.img}}" alt="gallery-image">
+                            </div>
+                            <div class="gallery-item-text">
+                                <span>Immagine {{index+1}}</span>
+                            </div>
+                        </div>
+                    }
+                    @for(image of this.perizieService.selectedPerizia.photos; track this.perizieService.selectedPerizia.img; let index=$index){
+                        <div class="item-content">
+                            <div class="gallery-item">
+                                <img src="../../../assets/{{image.img}}" alt="gallery-image">
+                            </div>
+                            <div class="gallery-item-text">
+                                <span>Immagine {{index+1}}</span>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
-        </div>
+        }
+        @else{
+            <div class="no-photo">
+                <span>Non ci sono foto da visualizzare</span>
+            </div>
+        }
+        
     </div>
 </div>

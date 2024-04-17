@@ -13,6 +13,7 @@ import { MainComponent } from './home/main/main.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { EditPeriziaComponent } from './home/edit-perizia/edit-perizia.component';
 import { GalleryComponent } from './home/gallery/gallery.component';
+import { UsersComponent } from './home/users/users.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { GalleryComponent } from './home/gallery/gallery.component';
     MainComponent,
     EditPeriziaComponent,
     GalleryComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,

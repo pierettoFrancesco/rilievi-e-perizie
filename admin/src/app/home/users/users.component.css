@@ -1,0 +1,17 @@
+.wrapper{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: calc(100% - 280px);
+    height: 100svh;
+    background-color: #EDF2F7;
+}
+.container{
+    width:95%;
+    height: 90%;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 2rem;
+    gap: 2rem;
+}
