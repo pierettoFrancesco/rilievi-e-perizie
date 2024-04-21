@@ -1,4 +1,80 @@
 <div class="wrapper">
     <div class="container">
+        <div class="add-user">
+            <div class="text">
+                <span>
+                    <mat-icon>person_add</mat-icon>
+                    <span>Aggiungi utente</span>
+                </span>
+            </div>
+            <div class="add-user-container">
+                <div class="button-parent">
+                    <button>Aggiungi</button>
+                </div>
+            </div>  
+        </div>
+        <div class="list-user">
+            <div class="text">
+                <span>
+                    <mat-icon>format_list_bulleted</mat-icon>
+                    <span>Lista utenti</span>
+                </span>
+            </div>
+            <div class="list-user-container">
+                <div class="table">
+                    
+                    <div class="tab-header">
+                        @if(this.userService.loading){
+                            <div class="line-box">
+                                <div class="line"></div>
+                            </div>
+                        }
+                        <div class="cell">
+                            <span>Nome</span>
+                        </div>
+                        <div class="cell">
+                            <span>Cognome</span>
+                        </div>
+                        <div class="cell">
+                            <span>Username</span>
+                        </div>
+                        <div class="cell">
+                            <span>Ruolo</span>
+                        </div>
+                        <div class="cell">
+                            <span>Elimina</span>
+                        </div>
+                    </div> 
+                    <div class="tab-main">
+                        @for(user of this.userService.users; track user._id){
+                            <div class="row">
+                                <div class="cell">
+                                    <span>{{user.nome}}</span>
+                                </div>
+                                <div class="cell">
+                                    <span>{{user.cognome}}</span>
+                                </div>
+                                <div class="cell">
+                                    <span>{{user.username}}</span>
+                                </div>
+                                <div class="cell">
+                                    @if(user.admin){
+                                        <span>Admin</span>
+                                    }
+                                    @else{
+                                        <span>Utente</span>
+                                    } 
+                                </div>
+                                <div class="cell">
+                                    <span>
+                                        <mat-icon (click)="delete(user._id)">delete</mat-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>  
+        </div>
     </div>
 </div>

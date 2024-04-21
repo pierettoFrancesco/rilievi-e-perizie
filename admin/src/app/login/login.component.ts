@@ -24,6 +24,13 @@ export class LoginComponent {
     });
   }
 
+  AfterViewInit(){
+    this.loginForm = this.fb.group({
+      email: ['',[Validators.required, Validators.email]],
+      password: ['',Validators.required]
+    });
+  }
+
   showHidePwd(){
     console.log('showHidePwd');
     if(this.type === 'password'){
@@ -47,11 +54,11 @@ export class LoginComponent {
           "admin":true
 				}
 			);
-      request.then((response) => {		
+      request.then((response :any) => {		
         console.log(response.data);		
         this.router.navigate(['/home/main']);
       })		
-			request.catch((err) => {
+			request.catch((err : any) => {
 				if(err.response.status == 401){
 					//errore
 					console.log(err.response.data)
@@ -110,11 +117,11 @@ export class LoginComponent {
       preConfirm: (email) => {
         console.log(email);
         let request = this.libraryService.inviaRichiesta('POST', '/api/recuperaPwd',{"email":email, "skipCheckToken":true});
-        request.then((response) => {
+        request.then((response :any) => {
           console.log(response.data);
           swal.fire('Email inviata', 'Controlla la tua casella di posta', 'success');
         });
-        request.catch((err) => {
+        request.catch((err :any) => {
           console.log(err);
           swal.fire('Errore', "Errore nell'invio dell'email", 'error');
         });

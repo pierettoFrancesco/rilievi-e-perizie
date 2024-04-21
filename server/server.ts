@@ -324,6 +324,24 @@ app.get("/api/getPerizie", async(req:any, res:any, next:any) => {
 
 })
 
+app.get("/api/getUsers", async(req:any, res:any, next:any) => {
+    const client = new MongoClient(connectionString);
+    await client.connect();
+    const collection = client.db(DBNAME).collection("utenti");
+    let rq = collection.find({}).sort({"admin": -1}).toArray();
+    rq.then((data)=>{
+        res.send(data);
+    })
+    rq.catch((err)=>{
+        res.status(500).send("Errore esecuzione query "+ err.message);
+    })
+    rq.finally(()=>{
+        client.close();
+    })
+    
+
+})
+
 app.post("/api/recuperaPwd", async(req:any, res:any, next:any) => {
     let username = "f.pieretto.2292@vallauri.edu";
     let mail = req.body.email;
@@ -391,22 +409,38 @@ app.post("/api/recuperaPwd", async(req:any, res:any, next:any) => {
     
 })
 
-app.patch("/api/updatePerizia", (req, res, next) => {
+app.patch("/api/updatePerizia", async (req, res, next) => {
     console.log(req.body);
     const client = new MongoClient(connectionString);
-    client.connect().then(() => {
-        const collection = client.db(DBNAME).collection("perizie");
-        let codperizia = new ObjectId(req.body._id as string);
-        let descrizione = req.body.descrizione;
-        let photos = req.body.photos;
-        // modifica la descrizione, ancora da implementare modifica commenti
-        let rq = collection.updateOne({ "_id": codperizia }, { $set: { "descrizione": descrizione , "photos" : photos} });
-        rq.then((data) => {
-            res.send("ok");
-        });
-        rq.catch((err) => res.status(500).send(`Errore esecuzione query: ${err.message}`));
-        rq.finally(() => client.close());
+    await client.connect();
+    const collection = client.db(DBNAME).collection("perizie");
+    let codperizia = new ObjectId(req.body._id as string);
+    let descrizione = req.body.descrizione;
+    let photos = req.body.photos;
+    // modifica la descrizione, ancora da implementare modifica commenti
+    let rq = collection.updateOne({ "_id": codperizia }, { $set: { "descrizione": descrizione , "photos" : photos} });
+    rq.then((data) => {
+        res.send("ok");
     });
+    rq.catch((err) => res.status(500).send(`Errore esecuzione query: ${err.message}`));
+    rq.finally(() => client.close());
+});
+
+app.delete("/api/deleteUser", async(req:any, res:any, next:any) => {
+    const client = new MongoClient(connectionString);
+    await client.connect();
+    const collection = client.db(DBNAME).collection("utenti");
+    let _id = new ObjectId(req.body.id as string);
+    let rq = collection.deleteOne({"_id": _id});
+    rq.then((data)=>{
+        res.send("ok");
+    })
+    rq.catch((err)=>{
+        res.status(500).send("Errore esecuzione query "+ err.message);
+    })
+    rq.finally(()=>{
+        client.close();
+    })
 });
 
 

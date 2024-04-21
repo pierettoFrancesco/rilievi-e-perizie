@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-users',
@@ -6,5 +7,13 @@ import { Component } from '@angular/core';
   styleUrl: './users.component.css'
 })
 export class UsersComponent {
+  constructor(public userService : UsersService){}
 
+  ngOnInit(){
+    this.userService.getUsers();
+  }
+
+  delete(id: string){
+    this.userService.deleteUsers(id);
+  }
 }

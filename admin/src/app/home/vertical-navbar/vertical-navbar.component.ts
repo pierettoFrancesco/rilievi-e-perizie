@@ -10,6 +10,13 @@ export class VerticalNavbarComponent {
   active:string = 'home';
   constructor(private router : Router) {}
 
+  ngOnInit(){
+    if(this.router.url == '/home/main')
+      this.active = 'home';
+    else if(this.router.url == '/home/users')
+      this.active = 'users';
+  }
+  
   getClass(item:string){
     this.active = item;
     console.log(this.active);

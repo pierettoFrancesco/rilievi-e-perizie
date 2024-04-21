@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import axios,{AxiosRequestConfig, AxiosResponse} from 'axios';
+import axios, {AxiosRequestConfig} from 'axios';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +36,7 @@ export class LibraryService {
   }
 
   errore(err: any) {
+  console.log(err.response);
 	if(!err.response) 
 		alert("Connection Refused or Server timeout");	
 	else if (err.response.status == 200)
@@ -50,7 +51,7 @@ export class LibraryService {
   }
 }
 
-axios.interceptors.request.use((config)=>{
+axios.interceptors.request.use((config :any )=>{
 	if("token" in localStorage){
 		let token = localStorage.getItem("token");
 		config.headers["authorization"] = token;
@@ -58,7 +59,7 @@ axios.interceptors.request.use((config)=>{
 	return config;
 });
 
-axios.interceptors.response.use((response)=>{
+axios.interceptors.response.use((response :any)=>{
 	let token = response.headers["authorization"];
 	console.log("Token received  "+token);
 	if(token) localStorage.setItem("token", token);

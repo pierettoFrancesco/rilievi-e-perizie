@@ -14,8 +14,8 @@ export class MainComponent {
   constructor(public perizieService : PerizieService) {}
   position: any = {"lat":44.5557763, "lng":7.7347183};
 
-  ngOnInit() {
-    this.perizieService.initMap(this.position, this.filter);
+  async ngOnInit() {
+    await this.perizieService.initMap(this.position, this.filter);
     
     document.addEventListener("click", async (e) => {
       this.perizieService.selectedPerizia =this.perizieService.perizie.find((perizia: any) => perizia._id == (e.target as HTMLElement).id.split("-")[1]);
