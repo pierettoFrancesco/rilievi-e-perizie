@@ -443,6 +443,52 @@ app.delete("/api/deleteUser", async(req:any, res:any, next:any) => {
     })
 });
 
+app.post("/api/addUser", async(req:any, res:any, next:any) => {
+    const client = new MongoClient(connectionString);
+    await client.connect();
+    const collection = client.db(DBNAME).collection("utenti");
+    let username = req.body.user;
+    let name = req.body.name;
+    let surname = req.body.surname;
+    let admin = false;
+    let firstAccess = true;
+    let password = "password";
+    let newPassword = _bcryptjs.hashSync(password, 10);
+
+    /*controllo se esiste già lo username */
+    console.log(username, name, surname, admin, firstAccess, newPassword);
+
+    let regex = new RegExp("^"+username+"$", "i");
+    let rq = collection.findOne({"username":regex});
+    rq.then((data)=>{
+        console.log(data);
+        if(data){
+            res.status(500).send("Username già esistente");
+        }else{
+            let rq = collection.insertOne(
+                {"nome": name, "cognome":surname,
+                "username":username, "password":newPassword, 
+                "admin":admin, "firstAccess":firstAccess});
+            rq.then((data)=>{
+                res.send("ok");
+            })
+            rq.catch((err)=>{
+                res.status(500).send("Errore esecuzione query "+ err.message);
+            })
+            rq.finally(()=>{
+                client.close();
+            })
+        }
+    })
+    rq.catch((err)=>{
+        res.status(500).send("Errore esecuzione query "+ err.message);
+        client.close();
+    })
+    /*rq.finally(()=>{
+        client.close();
+    })*/
+    
+});
 
 function generateRandomPassword(length: number): string {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";

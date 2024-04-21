@@ -39,7 +39,7 @@
     margin-bottom: 0.6rem;
     display: flex;
     align-items: center;
-
+    
 }
 
 .text{
@@ -116,7 +116,6 @@
     padding: 0.6em;
     border-radius: 10px;
     font-size: 1rem;
-    color: #ffffff;
     font-weight: bold;
     background-color: #fff;
     font-size: 1rem;

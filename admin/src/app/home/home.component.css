@@ -10,7 +10,7 @@ app-vertical-navbar{
     bottom:0;
 }
 
-app-edit-perizia{
+app-edit-perizia, app-add-user{
     position: absolute;
     top: 0;
     left: 0;
@@ -18,3 +18,4 @@ app-edit-perizia{
     height: 100%;
     z-index: 999;
 }
+

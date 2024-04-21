@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 export class UsersService {
   users!:any;
   loading:boolean = false;
+  isAddUser:boolean = false;
   constructor(public libraryService : LibraryService) { }
 
   async getUsers()  {
@@ -42,5 +43,37 @@ export class UsersService {
     })
   }
 
+  addUser(name: string, surname: string, user: string) {
+     this.libraryService.inviaRichiesta("post", "/api/addUser", {"name": name, "surname": surname, "user": user})
+     .then((response) => {
+      console.log(response);
+        Swal.fire({
+          title: 'Utente aggiunto!',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.closeWindow();
+            this.getUsers();
+          }
+        });
+     })
+     .catch((error) => {
+      if(error.response.data == "Username già esistente"){
+        Swal.fire({
+          title: 'Username già esistente!',
+          text: 'Inserisci un altro username.',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
+      }
+      else{
+        this.libraryService.errore(error)
+      }
+     });
+  }
 
+  closeWindow(){
+    this.isAddUser = false;
+  }
 }

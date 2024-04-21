@@ -8,7 +8,7 @@
                 </span>
             </div>
             <div class="add-user-container">
-                <div class="button-parent">
+                <div class="button-parent" (click)="addUser()">
                     <button>Aggiungi</button>
                 </div>
             </div>  
@@ -22,7 +22,6 @@
             </div>
             <div class="list-user-container">
                 <div class="table">
-                    
                     <div class="tab-header">
                         @if(this.userService.loading){
                             <div class="line-box">

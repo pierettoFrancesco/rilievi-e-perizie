@@ -14,6 +14,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { EditPeriziaComponent } from './home/edit-perizia/edit-perizia.component';
 import { GalleryComponent } from './home/gallery/gallery.component';
 import { UsersComponent } from './home/users/users.component';
+import { AddUserComponent } from './home/add-user/add-user.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { UsersComponent } from './home/users/users.component';
     EditPeriziaComponent,
     GalleryComponent,
     UsersComponent,
+    AddUserComponent,
   ],
   imports: [
     BrowserModule,

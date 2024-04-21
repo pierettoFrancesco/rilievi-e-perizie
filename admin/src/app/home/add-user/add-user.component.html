@@ -1,0 +1,30 @@
+<div class="wrapper-add">
+    <div class="content-add">
+        <div class="text">
+            <span>
+                <mat-icon>add</mat-icon>
+                <span>Aggiungi utente</span>
+            </span>
+            <span class="close" (click)="this.userService.closeWindow()">
+                <mat-icon>close</mat-icon>
+            </span>
+        </div>
+        <ul class="list">
+            <li>
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" [(ngModel)]="name">
+            </li>
+            <li>
+                <label for="surname">Cognome:</label>
+                <input type="text" id="surname" name="surname" [(ngModel)]="surname">
+            </li>
+            <li>
+                <label for="username">Username:</label>
+                <input type="email" pattern="" id="username" name="username" [(ngModel)]="user" (change)="onChange()">
+            </li>
+        </ul>
+        <div class="btn">
+            <button [disabled]="valid == false" (click)="onSubmit()" [ngClass]="{disabled: valid == false}">Salva</button>
+        </div>
+    </div>
+</div>

@@ -16,4 +16,8 @@ export class UsersComponent {
   delete(id: string){
     this.userService.deleteUsers(id);
   }
+
+  addUser(){
+    this.userService.isAddUser = true;
+  }
 }
