@@ -25,7 +25,7 @@
                     @for(image of this.perizieService.selectedPerizia.photos; track this.perizieService.selectedPerizia.img; let index=$index){
                         <div class="item-content">
                             <div class="gallery-item">
-                                <img src="../../../assets/{{image.img}}" alt="gallery-image">
+                                <img [src]="image.img" alt="gallery-image">
                             </div>
                             <div class="gallery-item-text">
                                 <span>Immagine {{index+1}}</span>

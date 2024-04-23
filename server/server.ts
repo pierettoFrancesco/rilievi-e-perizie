@@ -541,17 +541,6 @@ app.post("/api/savePeriziaOnCloudinary", async (req, res, next) => {
         });
 });
 
-
-app.get("/api/getImages", async (req, res, next) => {
-    const client = new MongoClient(connectionString);
-    await client.connect();
-    let collection = client.db(DBNAME).collection("images");
-    let rq = collection.find().toArray();
-    rq.then((data) => res.send(data));
-    rq.catch((err) => res.status(500).send(`Errore esecuzione query: ${err}`));
-    rq.finally(() => client.close());
-});
-
 app.get("/api/loadPerizie", async (req, res, next) => {
     let username = req["payload"].username;
     const client = new MongoClient(connectionString);
@@ -570,6 +559,7 @@ app.get("/api/loadPerizie", async (req, res, next) => {
         client.close();
     })
 });
+
 function generateRandomPassword(length: number): string {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";
     let password = "";

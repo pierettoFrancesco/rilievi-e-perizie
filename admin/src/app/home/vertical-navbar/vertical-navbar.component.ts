@@ -7,18 +7,19 @@ import { Router } from '@angular/router';
   styleUrl: './vertical-navbar.component.css'
 })
 export class VerticalNavbarComponent {
-  active:string = 'home';
+  active:string = 'main';
   constructor(private router : Router) {}
 
   ngOnInit(){
     if(this.router.url == '/home/main')
-      this.active = 'home';
+      this.active = 'main';
     else if(this.router.url == '/home/users')
       this.active = 'users';
   }
   
   getClass(item:string){
     this.active = item;
+    this.router.navigate(['/home/'+item]);
     console.log(this.active);
   }
 

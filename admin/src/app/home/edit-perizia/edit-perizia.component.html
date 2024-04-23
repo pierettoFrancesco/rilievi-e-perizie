@@ -33,7 +33,7 @@
             <ul>
                 @for (foto of perizia.photos; track perizia.img; let index = $index) {
                     <li>
-                        <img src="../../../assets/{{foto.img}}" alt="Immagine perizia" style="width: 65px; height:65">
+                        <img [src]="foto.img" alt="Immagine perizia" style="width: 65px; height:65">
                         <input type="text" name="immagine-commento-{{foto.img}}" [(ngModel)]="commenti[index]" >
                     </li>
                 }

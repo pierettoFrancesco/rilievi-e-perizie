@@ -4,16 +4,16 @@
         <span>rilievi e perizie</span>
     </div>
     <ul class="navbar-list">
-        <li class="navbar-item" [ngClass]="{active: active == 'home'}" (click)="getClass('home')">
+        <li class="navbar-item" [ngClass]="{active: active == 'main'}" (click)="getClass('main')">
             <span>
                 <mat-icon>home</mat-icon>
-                <a class="navbar-link" routerLink="/home/main">Home</a>
+                <a class="navbar-link" >Home</a>
             </span>
         </li>
         <li class="navbar-item" [ngClass]="{active: active == 'users'}" (click)="getClass('users')">
             <span>
                 <mat-icon>person</mat-icon>
-                <a class="navbar-link" routerLink="/home/users">Utenti</a>
+                <a class="navbar-link" >Utenti</a>
             </span>
         </li>
     </ul>
