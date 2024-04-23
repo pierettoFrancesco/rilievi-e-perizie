@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabs',
@@ -7,9 +8,14 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
   navigate: string = "tab1";
-  constructor() {}
+  constructor(private router:Router) {}
 
   getClass(name:string){
     this.navigate = name;
+  }
+
+  logout(){
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 }
