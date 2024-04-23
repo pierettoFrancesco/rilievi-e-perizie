@@ -1,0 +1,64 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!--<ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 1</ion-title>
+    </ion-toolbar>
+  </ion-header>-->
+  <div class="container">
+    <div class="container-photo">
+      <div class="text">
+          <span>
+              <mat-icon>directions_car</mat-icon>
+              <span>Perizia</span>
+          </span>
+      </div>
+      <div id="details">
+        <div class="description">
+          <span>Descrizione</span>
+          <textarea [(ngModel)]="photoService.descrizione" placeholder="Inserisci una descrizione"></textarea>
+        </div>
+        <div class="photo-container">
+          <div class="photo" (click)="addPhotoToGallery()">
+            <mat-icon>photo_camera</mat-icon>
+            <span>Aggiungi foto</span>
+          </div>
+          @if(photoService.descrizione != ''){
+            <div class="photo" (click)="photoService.savePerizia()">
+              <mat-icon>book</mat-icon>
+              <span>Salva</span>
+            </div>
+          }
+        </div>
+        <div class="list">
+          @if(photoService.photos.length > 0){
+            <span>Immagini</span>
+            @for(item of photoService.photos; track item.webviewPath; let index = $index){
+              <div class="photo-item-list">
+                <div class="picture">
+                  <img [src]="item.webviewPath" />
+                </div>
+                <div class="remove">
+                  <mat-icon (click)="photoService.deleteFromArray(item)">delete</mat-icon>
+                </div>
+                <div class="commento">
+                  <input type="text" placeholder="inserisci un commento" [(ngModel)]="photoService.commenti[index]">
+                </div>
+              </div>
+            }
+          }
+        </div>
+        
+      </div>
+      
+  </div>
+</div>
+  
+</ion-content>

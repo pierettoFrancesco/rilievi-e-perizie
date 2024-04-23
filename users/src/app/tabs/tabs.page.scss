@@ -1,0 +1,28 @@
+ion-tabs,ion-tab-button{
+    background-color: #fff !important;
+}
+
+ion-tab-button span mat-icon{
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4FD1C5;
+    padding: 20px;
+    border-radius:15px;
+    background-color: #fff; 
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.4);
+}
+
+
+ion-tab-button:hover span mat-icon  {
+    color:#fff;
+    background-color: #4FD1C5;
+}
+
+.active span mat-icon{
+    color:#fff !important;
+    background-color: #4FD1C5 !important;
+}
