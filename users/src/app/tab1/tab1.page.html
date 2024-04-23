@@ -26,15 +26,15 @@
           <textarea [(ngModel)]="photoService.descrizione" placeholder="Inserisci una descrizione"></textarea>
         </div>
         <div class="photo-container">
+          @if(photoService.descrizione != ''){
           <div class="photo" (click)="addPhotoToGallery()">
             <mat-icon>photo_camera</mat-icon>
             <span>Aggiungi foto</span>
           </div>
-          @if(photoService.descrizione != ''){
-            <div class="photo" (click)="photoService.savePerizia()">
-              <mat-icon>book</mat-icon>
-              <span>Salva</span>
-            </div>
+          <div class="photo" (click)="photoService.savePerizia()">
+            <mat-icon>book</mat-icon>
+            <span>Salva</span>
+          </div>
           }
         </div>
         <div class="list">

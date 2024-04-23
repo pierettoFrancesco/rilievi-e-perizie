@@ -1,17 +1,58 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Elenco
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
- 
+    <div class="container">
+      <div class="container-perizie">
+        <div class="text">
+            <span>
+                <mat-icon>directions_car</mat-icon>
+                <span>Elenco perizie</span>
+            </span>
+        </div>
+        @for(perizia of perizieService.perizie; track perizia._id; let i = $index){
+          <div class="perizia">
+            <div class="select-parent" (click)="openMenu(i)">
+              <span>Perizia  <b>{{perizia._id}}</b></span>
+              <mat-icon [ngClass]="{rotate: isOpen[i]}">arrow_drop_down</mat-icon>
+            </div>
+            @if(isOpen[i] == true){
+              <ul class="list">
+                <li>
+                    <span>Data e ora perizia:</span>
+                    {{perizia.data}}
+                </li>
+                <li>
+                    <span>Coordinate: </span> 
+                    {{perizia.coordinate.lat.toFixed(3)}} - {{perizia.coordinate.lng.toFixed(3)}}
+                </li>
+                <li class="descr">
+                    <span>Descrizione: </span>
+                    <textarea [value]="perizia.descrizione" readonly></textarea>
+                </li>
+              </ul>
+              @if(perizia.photos.length > 0){
+                <div class="imgs">
+                    <span>Immagini: </span>
+                    <ul>
+                        @for (foto of perizia.photos; track foto.img; let index = $index) {
+                          <li>
+                              <img [src]="foto.img" alt="Immagine perizia" style="width: 65px; height:65">
+                              <input type="text" name="immagine-commento-{{foto.img}}" [value]="foto.commento" readonly>
+                          </li>
+                        }
+                    </ul>
+                </div>
+              }
+            }
+            
+          </div>
+        }
+      </div>
+    </div>
 </ion-content>

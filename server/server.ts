@@ -552,6 +552,24 @@ app.get("/api/getImages", async (req, res, next) => {
     rq.finally(() => client.close());
 });
 
+app.get("/api/loadPerizie", async (req, res, next) => {
+    let username = req["payload"].username;
+    const client = new MongoClient(connectionString);
+    await client.connect();
+    const collection = client.db(DBNAME).collection("perizie");
+    let rq : any;
+    let regex = new RegExp("^"+username+"$", "i");
+    rq = collection.find({"codiceOp":username}).toArray();
+    rq.then((data)=>{
+        res.send(data);
+    })
+    rq.catch((err)=>{
+        res.status(500).send("Errore esecuzione query "+ err.message);
+    })
+    rq.finally(()=>{
+        client.close();
+    })
+});
 function generateRandomPassword(length: number): string {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";
     let password = "";
