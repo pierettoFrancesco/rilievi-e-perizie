@@ -285,16 +285,18 @@ app.use("/api/",(req:any, res:any, next:any)=>{
 app.patch("/api/changePwd", async(req:any, res:any) => {
     let username = req["payload"]["username"];
     let pwd = req["payload"]["password"];
+    let newPwd = req.body.newPassword;
     let client = new MongoClient(connectionString);
-    
+    console.log(pwd)
     await client.connect();
     const collection = client.db(DBNAME).collection("utenti");
     let regex = new RegExp("^"+username+"$", "i");
 
-    let newPassword = _bcryptjs.hashSync(pwd, 10);
-    let rq = collection.updateOne({"username":regex}, {"$set": {"password": newPassword, "firstAccess": true}});
+    let newPassword = _bcryptjs.hashSync(newPwd, 10);
+    let rq = collection.updateOne({"username":regex}, {"$set": {"password": newPassword, "firstAccess": false}});
     rq.then((data)=>{
         console.log("Password aggiornata correttamente");
+        res.send("ok");
     })
     rq.catch((err)=>{
         console.log("Errore aggiornamento password "+ err.message);
@@ -303,7 +305,6 @@ app.patch("/api/changePwd", async(req:any, res:any) => {
     rq.finally(()=>{
         client.close();
     })
-    
 });
 
 app.get("/api/getPerizie", async(req:any, res:any, next:any) => {
@@ -549,6 +550,24 @@ app.get("/api/loadPerizie", async (req, res, next) => {
     let rq : any;
     let regex = new RegExp("^"+username+"$", "i");
     rq = collection.find({"codiceOp":username}).toArray();
+    rq.then((data)=>{
+        res.send(data);
+    })
+    rq.catch((err)=>{
+        res.status(500).send("Errore esecuzione query "+ err.message);
+    })
+    rq.finally(()=>{
+        client.close();
+    })
+});
+
+app.get("/api/getAccess",async (req, res, next) => {
+    let username = req["payload"].username;
+    const client = new MongoClient(connectionString);
+    await client.connect();
+    const collection = client.db(DBNAME).collection("utenti");
+    let regex = new RegExp("^"+username+"$", "i");
+    let rq = collection.findOne({"username":regex},{"projection": {"firstAccess":1, "_id":0}});
     rq.then((data)=>{
         res.send(data);
     })

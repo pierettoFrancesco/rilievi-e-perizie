@@ -13,7 +13,6 @@ export class Tab1Page {
   constructor(public photoService : PhotoService) {}
 
   async ngOnInit(){
-    
     this.photoService.coordinate = (await Geolocation.getCurrentPosition());
 
     console.log('Current position:', this.photoService.coordinate.coords.latitude, this.photoService.coordinate.coords.longitude);
