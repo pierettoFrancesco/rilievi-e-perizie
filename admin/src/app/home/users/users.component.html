@@ -64,11 +64,17 @@
                                         <span>Utente</span>
                                     } 
                                 </div>
-                                <div class="cell">
-                                    <span>
-                                        <mat-icon (click)="delete(user._id)">delete</mat-icon>
-                                    </span>
-                                </div>
+                                @if(!user.admin){
+                                    <div class="cell">
+                                        <span>
+                                            <mat-icon (click)="delete(user._id)">delete</mat-icon>
+                                        </span>
+                                    </div>
+                                }@else{
+                                    <div class="cell">
+                                        <span></span>
+                                    </div>
+                                }
                             </div>
                         }
                     </div>

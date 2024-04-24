@@ -28,9 +28,9 @@
                         @if(filter != 'tutti'){
                             <div (click)="changeFilter('tutti')">tutti</div>
                         }
-                        @for (perizia of this.perizieService.perizie; track perizia._id) {
-                            @if(filter != perizia.codiceOp){
-                                <div (click)="changeFilter(perizia.codiceOp)" >{{ perizia.codiceOp }}</div>
+                        @for (owner of this.perizieService.owners; track owner) {
+                            @if(filter != owner){
+                                <div (click)="changeFilter(owner)" >{{ owner }}</div>
                             }
                         }
                     </div>

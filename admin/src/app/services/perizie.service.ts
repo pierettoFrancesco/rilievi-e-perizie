@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
   providedIn: 'root'
 })
 export class PerizieService{
-  
+  owners:string[] = [];
   public perizie!:any;
   totPerizie!:number;
   selectedPerizia!:any;
@@ -119,6 +119,9 @@ export class PerizieService{
         
       for (const perizia of response["data"]) {
         this.addMarker(perizia, map); 
+        if(!this.owners.includes(perizia.codiceOp)){
+          this.owners.push(perizia.codiceOp);
+        }
       }
 
     });
