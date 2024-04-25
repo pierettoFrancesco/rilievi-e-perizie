@@ -395,10 +395,10 @@ app.post("/api/recuperaPwd", async(req:any, res:any, next:any) => {
         "subject": "Nuova password di accesso",
         //"html": req.body.message
         "html": message,
-        "attachments": [{
+        /*"attachments": [{
             "filename": "qrCode.png",
             "path":"./qrCode.png"
-        }]
+        }]*/
     }
     transporter.sendMail(mailOptions,function(err, info){
         if(err){

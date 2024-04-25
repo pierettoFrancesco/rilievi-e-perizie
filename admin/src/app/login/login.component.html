@@ -18,7 +18,7 @@
             </div>
           </div>
           <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')">*Email obbligatoria</small>
-          <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('email','email')">*Email scritta in un formato sbagliato</small>
+          <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('pattern','email')" >*Email scritta in un formato sbagliato</small>
           <div class="form-group">
             <div class="search">
               <div class="search-group">
@@ -37,21 +37,6 @@
           <div class="row-button">
             <button (click)="onSubmit()" type="submit">accedi</button>
           </div>
-          <!--<div class="row-line">
-            <p>o</p>
-          </div>
-          <div class="row-button-google">
-            <button type="button" class="google-login">
-              <div class="google-image">
-                <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA">
-              </div>
-              Login with Google
-            </button>
-          </div>
-          <div class="signUp">
-            <p>Non hai un account? <a href="#">Registrati</a></p>
-          </div>-->
         </form>
-
       </div>
 </div>
