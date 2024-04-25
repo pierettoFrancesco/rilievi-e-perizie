@@ -29,7 +29,7 @@ const DBNAME = process.env.DBNAME;
 const app = _express();
 const connectionString= process.env.connectionStringAtlas;
 //Variabili generiche
-const HTTPS_PORT:number = parseInt(process.env.PORT);
+const HTTP_PORT:number = parseInt(process.env.PORT);
 let paginaErrore;
 
 
@@ -37,15 +37,15 @@ let paginaErrore;
 // se non viene specificato su tutte le interfacce
 
 //SERVER HTTPS occorre passare le chiavi RSA (private e public)
-const privateKey = _fs.readFileSync('./keys/privateKey.pem', 'utf8');
-const certificate = _fs.readFileSync('./keys/certificate.crt', 'utf8');
-const ENCRYPTION_KEY = _fs.readFileSync('./keys/encryptionKey.txt', 'utf8')
-const credentials = { key: privateKey, cert: certificate };
-const https_server = _https.createServer(credentials, app);
 
-https_server.listen(HTTPS_PORT, () => {
+const ENCRYPTION_KEY = _fs.readFileSync('./keys/encryptionKey.txt', 'utf8')
+
+
+const http_server = _http.createServer(app);
+
+http_server.listen(HTTP_PORT, () => {
     init();
-    console.log(`Il Server HTTPS è in ascolto sulla porta ${HTTPS_PORT}`);
+    console.log(`Il Server HTTP è in ascolto sulla porta ${HTTP_PORT}`);
 });
 
 function init(){
@@ -88,12 +88,11 @@ app.use("/", (req:any, res:any, next:any) => {
 });
 
 //5 CORS (Controllo degli accessi)
-/*const whitelist = [
-    "http://pierettofrancesco-crudserver.onrender.com", //render
-    "https://pierettofrancesco-crudserver.onrender.com", // porta 443 (default)
+const whitelist = [
     "http://localhost:3000",
     "https://localhost:3001",
-    "http://localhost:4200" // server angular
+    "http://localhost:4200",    // server angular
+    "http://localhost:8100"     // server ionic
    ];
 
 const corsOptions = {
@@ -110,16 +109,16 @@ const corsOptions = {
     },
     credentials: true
 };
-app.use("/", _cors(corsOptions));*/
+app.use("/", _cors(corsOptions));
 
 // Tramite questa procedura si accettano tutti
-const corsOptions = {
+/*const corsOptions = {
     origin: function(origin, callback) {
         return callback(null, true);
     },
     credentials: true
 };
-app.use("/", _cors(corsOptions));
+app.use("/", _cors(corsOptions));*/
 
 
 //********************************************************************************/
@@ -284,27 +283,40 @@ app.use("/api/",(req:any, res:any, next:any)=>{
 
 app.patch("/api/changePwd", async(req:any, res:any) => {
     let username = req["payload"]["username"];
-    let pwd = req["payload"]["password"];
+
     let newPwd = req.body.newPassword;
+    let oldPwd = req.body.oldPassword;
     let client = new MongoClient(connectionString);
-    console.log(pwd)
     await client.connect();
     const collection = client.db(DBNAME).collection("utenti");
     let regex = new RegExp("^"+username+"$", "i");
-
-    let newPassword = _bcryptjs.hashSync(newPwd, 10);
-    let rq = collection.updateOne({"username":regex}, {"$set": {"password": newPassword, "firstAccess": false}});
+    let rq = collection.findOne({"username":regex}, {"projection": {"password":1}});
     rq.then((data)=>{
-        console.log("Password aggiornata correttamente");
-        res.send("ok");
+        let pwd = data.password;
+        if(!_bcryptjs.compareSync(oldPwd, pwd)){
+            res.status(500).send("Password non corretta");
+        }
+        else{
+            let newPassword = _bcryptjs.hashSync(newPwd, 10);
+            let rq = collection.updateOne({"username":regex}, {"$set": {"password": newPassword, "firstAccess": false}});
+            rq.then((data)=>{
+                console.log("Password aggiornata correttamente");
+                res.send("ok");
+            })
+            rq.catch((err)=>{
+                console.log("Errore aggiornamento password "+ err.message);
+                client.close();
+            })
+            rq.finally(()=>{
+                client.close();
+            })
+        }
     })
     rq.catch((err)=>{
-        console.log("Errore aggiornamento password "+ err.message);
+        res.status(500).send("Errore esecuzione query "+ err.message);
         client.close();
     })
-    rq.finally(()=>{
-        client.close();
-    })
+    
 });
 
 app.get("/api/getPerizie", async(req:any, res:any, next:any) => {

@@ -20,4 +20,8 @@ export class UsersComponent {
   addUser(){
     this.userService.isAddUser = true;
   }
+
+  changePwd(){
+    
+  }
 }

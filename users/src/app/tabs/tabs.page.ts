@@ -21,8 +21,5 @@ export class TabsPage {
     this.navigate = name;
   }
 
-  logout(){
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
-  }
+  
 }

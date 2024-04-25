@@ -10,7 +10,7 @@
     width:95%;
     height: 90%;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 4fr;
     padding: 2rem;
     gap: 2rem;
@@ -27,7 +27,14 @@
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
     border-radius: 10px;
 }
-
+.change-pwd{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
 .text{
     width: 98%;
 }
@@ -84,10 +91,6 @@
     color: #4FD1C5;
 }
 
-/*.container-tot .text span mat-icon{
-    background-color: #fff;
-    color:#4FD1C5;
-}*/
 
 .text span span{
     width: 100%;
@@ -103,7 +106,7 @@
     font-weight: bold;
 }
 
-.button-parent{
+.button-parent, .button-parent-pwd{
     width: 100px;
     display: flex;
     justify-content: flex-end;
@@ -127,8 +130,26 @@
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
 }
 
+.button-parent-pwd button{
+    width: 100%;
+    padding: 0.6em;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    background: #313860;
+    background: linear-gradient(60deg, #313860 14%, #151928 86%);
+    font-size: 1rem;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+}
+
 
 .list-user{
+    grid-column: span 2;
     width: 100%;
     display: flex;
     flex-direction: column;

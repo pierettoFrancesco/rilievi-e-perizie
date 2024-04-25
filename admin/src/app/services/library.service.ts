@@ -6,7 +6,7 @@ import axios, {AxiosRequestConfig} from 'axios';
 })
 export class LibraryService {
 
-  private _URL:string = "https://localhost:3000";
+  private _URL:string = "http://localhost:3000";
 
   inviaRichiesta(method:string, url:string, parameters={}) {
     let config: AxiosRequestConfig={
