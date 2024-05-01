@@ -8,7 +8,6 @@ import { PerizieService } from '../services/perizie.service';
   styleUrls: ['./tab3.page.scss'],
 })
 export class Tab3Page implements OnInit {
-
   constructor(private router:Router,public perizieService: PerizieService) { }
 
   ngOnInit() {

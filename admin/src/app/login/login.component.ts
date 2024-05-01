@@ -14,6 +14,7 @@ export class LoginComponent {
   type:string = 'password';
   eyeIcon:string = 'visibility_off';
   error : string = '';
+  loading:boolean = false;
 
   constructor(private fb: FormBuilder, public libraryService : LibraryService,private  router: Router) {}
 
@@ -47,6 +48,7 @@ export class LoginComponent {
       console.log("OTTIMO");
       console.log(this.loginForm.value.email);
       console.log(this.loginForm.value.password);
+      this.loading = true;
       let request = this.libraryService.inviaRichiesta('POST', '/api/login',  
 				{ 
           "username": this.loginForm.value.email,
@@ -55,12 +57,14 @@ export class LoginComponent {
 				}
 			);
       request.then((response :any) => {		
+        this.loading = false;
         console.log(response.data);		
         this.router.navigate(['/home/main']);
       })		
 			request.catch((err : any) => {
 				if(err.response.status == 401){
 					//errore
+          this.loading = false;
 					console.log(err.response.data)
           this.error = err.response.data;
           this.loginForm = this.fb.group({

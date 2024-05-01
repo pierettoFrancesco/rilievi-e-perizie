@@ -1,42 +1,50 @@
 <div class="wrapper">
-    <div class="login-container">
-        <div class="image">
-            <mat-icon>car_crash</mat-icon>
-        </div>
-        <div class="header">
-            <h2>Login</h2>
-            <p>inserisci le credenziali</p>
-        </div>
+  @if(this.loading){
+  <div class="line-box">
+    <div class="line"></div>
+  </div>
+  }
+  <div class="login-container">
+    <div class="image">
+      <mat-icon>car_crash</mat-icon>
+    </div>
+    <div class="header">
+      <h2>Login</h2>
+      <p>inserisci le credenziali</p>
+    </div>
 
-        <form [formGroup]="loginForm" class="content">
-          <div class="form-group">
-            <div class="search">
-              <div class="search-group">
-                <mat-icon>email</mat-icon>
-                <input formControlName="email" type="text" placeholder="email">    
-              </div>
-            </div>
+    <form [formGroup]="loginForm" class="content">
+      <div class="form-group">
+        <div class="search">
+          <div class="search-group">
+            <mat-icon>email</mat-icon>
+            <input formControlName="email" type="text" placeholder="email">
           </div>
-          <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')">*Email obbligatoria</small>
-          <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('pattern','email')" >*Email scritta in un formato sbagliato</small>
-          <div class="form-group">
-            <div class="search">
-              <div class="search-group">
-                <mat-icon>lock</mat-icon>
-                <input formControlName="password" [type]="type" placeholder="password">
-              </div>
-              <span (click) = "showHidePwd()">
-                <mat-icon class="eye">{{eyeIcon}}</mat-icon> 
-              </span>
-            </div>
-          </div>
-          <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">*Password obbligatoria</small>
-          <div class="forgetPwd">
-            <span href="#" (click)="recuperaPwd()">Password dimenticata?</span>
-          </div>
-          <div class="row-button">
-            <button (click)="onSubmit()" type="submit">accedi</button>
-          </div>
-        </form>
+        </div>
       </div>
+      <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')">*Email
+        obbligatoria</small>
+      <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('pattern','email')">*Email scritta in un
+        formato sbagliato</small>
+      <div class="form-group">
+        <div class="search">
+          <div class="search-group">
+            <mat-icon>lock</mat-icon>
+            <input formControlName="password" [type]="type" placeholder="password">
+          </div>
+          <span (click)="showHidePwd()">
+            <mat-icon class="eye">{{eyeIcon}}</mat-icon>
+          </span>
+        </div>
+      </div>
+      <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">*Password
+        obbligatoria</small>
+      <div class="forgetPwd">
+        <span href="#" (click)="recuperaPwd()">Password dimenticata?</span>
+      </div>
+      <div class="row-button">
+        <button (click)="onSubmit()" type="submit">accedi</button>
+      </div>
+    </form>
+  </div>
 </div>

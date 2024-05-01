@@ -4,6 +4,7 @@
     background-color: #F8F9FA;
     display: grid;
     place-items: center;
+    position:relative;
 }
 
 .login-container{
@@ -260,6 +261,34 @@ small{
     margin-top: 0.5rem;
 }
 
+.line-box{
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background-color: transparent;
+    margin-inline: 2px;
+    overflow: hidden;
+}
+
+.line{
+    height: 100%;
+    width:30%;
+    background-color: #4FD1C5;
+    border-radius: 100svh;
+    animation: loading 1s infinite cubic-bezier(0,0,0,0);
+    position: relative;
+}
+
+@keyframes loading{
+    0%{
+        left:-100%;
+    }
+    100%{
+       left: 200%;
+    }
+}
 
 @media screen and (max-width: 768px) {
     .login-container {

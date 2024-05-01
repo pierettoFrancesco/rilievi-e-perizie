@@ -5,7 +5,6 @@ import axios, {AxiosRequestConfig} from 'axios';
   providedIn: 'root'
 })
 export class LibraryService {
-
   private _URL:string = "https://pierettofrancesco-crudserver.onrender.com";
 
   inviaRichiesta(method:string, url:string, parameters={}) {

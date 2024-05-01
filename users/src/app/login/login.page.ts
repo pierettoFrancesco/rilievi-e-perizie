@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
   type:string = 'password';
   eyeIcon:string = 'visibility_off';
   error : string = '';
+  loading : boolean = false;
   constructor(private fb: FormBuilder,public libraryService : LibraryService,private router:Router) { }
 
   ngOnInit(): void{
@@ -40,9 +41,7 @@ export class LoginPage implements OnInit {
 
   onSubmit(){
     if(this.loginForm.valid){
-      console.log("OTTIMO");
-      console.log(this.loginForm.value.email);
-      console.log(this.loginForm.value.password);
+      this.loading = true;
       let request = this.libraryService.inviaRichiesta('POST', '/api/login',  
 				{ 
           "username": this.loginForm.value.email,
@@ -50,14 +49,14 @@ export class LoginPage implements OnInit {
           "admin":false
 				}
 			);
-      request.then((response :any) => {		
-        console.log(response.data);		
+      request.then((response :any) => {	
+        this.loading = false;		
         this.router.navigateByUrl('/tabs');
       })		
 			request.catch((err : any) => {
+        this.loading = false;
 				if(err.response.status == 401){
 					//errore
-					console.log(err.response.data)
           this.error = err.response.data;
           this.loginForm = this.fb.group({
             email: ['',[Validators.required, Validators.email]],
@@ -78,7 +77,6 @@ export class LoginPage implements OnInit {
 
   validateAllFormFields(formGroup: FormGroup){
     Object.keys(formGroup.controls).forEach(field => {
-      console.log(field, "campo");
       const control = formGroup.get(field);
       if(control instanceof FormControl){
         console.log(control, "control");
@@ -112,14 +110,11 @@ export class LoginPage implements OnInit {
       confirmButtonText: 'Recupera',
       showLoaderOnConfirm: true,
       preConfirm: (email) => {
-        console.log(email);
         let request = this.libraryService.inviaRichiesta('POST', '/api/recuperaPwd',{"email":email, "skipCheckToken":true});
         request.then((response :any) => {
-          console.log(response.data);
           swal.fire('Email inviata', 'Controlla la tua casella di posta', 'success');
         });
         request.catch((err :any) => {
-          console.log(err);
           swal.fire('Errore', "Errore nell'invio dell'email", 'error');
         });
       }
