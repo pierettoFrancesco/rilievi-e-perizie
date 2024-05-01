@@ -115,6 +115,7 @@ export class LoginComponent {
       cancelButtonText: 'Annulla',
       confirmButtonText: 'Recupera',
       showLoaderOnConfirm: true,
+      allowOutsideClick: false,
       preConfirm: (email) => {
         console.log(email);
         let request = this.libraryService.inviaRichiesta('POST', '/api/recuperaPwd',{"email":email, "skipCheckToken":true});
