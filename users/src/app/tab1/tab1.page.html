@@ -14,6 +14,11 @@
   </ion-header>-->
   <div class="container">
     <div class="container-photo">
+      @if(this.photoService.loading){
+        <div class="line-box">
+            <div class="line"></div>
+        </div>
+      }
       <div class="text">
           <span>
               <mat-icon>directions_car</mat-icon>

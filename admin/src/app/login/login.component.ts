@@ -99,7 +99,7 @@ export class LoginComponent {
       title: 'Errore!',
       text: this.error,
       icon: 'error',
-      confirmButtonText: 'OK'
+      confirmButtonText: 'OK',
     });
   }
 
@@ -112,6 +112,7 @@ export class LoginComponent {
         autocapitalize: 'off'
       },
       showCancelButton: true,
+      cancelButtonText: 'Annulla',
       confirmButtonText: 'Recupera',
       showLoaderOnConfirm: true,
       preConfirm: (email) => {

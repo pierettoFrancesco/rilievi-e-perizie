@@ -4,11 +4,9 @@ import _fs from "fs";
 import _express from "express";
 import _dotenv from "dotenv";
 import _cors from "cors";
-//import _nodemailer from "nodemailer";
-import _https from "https";
+import _nodemailer from "nodemailer";
 import _bcryptjs from "bcryptjs";
 import _jwt from "jsonwebtoken";
-const _nodemailer = require("nodemailer");
 import { google } from "googleapis";
 import _cloudinary, { UploadApiResponse } from "cloudinary";
 
@@ -24,7 +22,6 @@ _cloudinary.v2.config({
 
 //Variabili relative a Mongo
 import {MongoClient, ObjectId} from "mongodb";
-import { env } from "process";
 const DBNAME = process.env.DBNAME;
 const app = _express();
 const connectionString= process.env.connectionStringAtlas;
@@ -49,14 +46,14 @@ http_server.listen(HTTP_PORT, () => {
 });
 
 function init(){
-    /*_fs.readFile("./static/error.html",function(err,data){
+    _fs.readFile("./static/error.html",function(err,data){
         if(err){
             paginaErrore = "<h1>Risorsa non trovata</h1>";
         }
         else{
             paginaErrore=data.toString();
         }
-    });*/
+    });
 }
 //********************************************************************************/
 // Routes middleware
@@ -88,7 +85,7 @@ app.use("/", (req:any, res:any, next:any) => {
 });
 
 //5 CORS (Controllo degli accessi)
-const whitelist = [
+/*const whitelist = [
     "http://localhost:3000",
     "https://localhost:3001",
     "http://localhost:4200",    // server angular
@@ -110,29 +107,21 @@ const corsOptions = {
     credentials: true
 };
 app.use("/", _cors(corsOptions));
-
+*/
 // Tramite questa procedura si accettano tutti
-/*const corsOptions = {
+const corsOptions = {
     origin: function(origin, callback) {
         return callback(null, true);
     },
     credentials: true
 };
-app.use("/", _cors(corsOptions));*/
+app.use("/", _cors(corsOptions));
 
 
 //********************************************************************************/
-//Configurazione nodemailer
+//Configurazione mail
 //********************************************************************************/
-/*const auth = {
-    "user" : process.env.gmailUser,
-    "pass" : process.env.gmailPassword,
-    }
-const transporter = _nodemailer.createTransport({
-    "service": "gmail",
-    "auth": auth
-});
-let message = _fs.readFileSync("./message.html","utf8");*/
+
 
 const o_Auth2= JSON.parse(process.env.oAuthCredential as any)
 const OAuth2 = google.auth.OAuth2; // Oggetto OAuth2
@@ -208,7 +197,7 @@ function creaToken(data){
 
 /*********************************************************************************/
 // Controllo token di google
-app.post("/api/googleLogin", async(req:any, res:any, next:any) => {
+/*app.post("/api/googleLogin", async(req:any, res:any, next:any) => {
     if(!req.headers["authorization"]){
         res.status(403).send("Token mancante");
     }
@@ -236,7 +225,7 @@ app.post("/api/googleLogin", async(req:any, res:any, next:any) => {
             }
         })
     }
-})
+})*/
 
 /*********************************************************************************/
 // Verifica token

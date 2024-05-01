@@ -35,6 +35,8 @@ export class PerizieService {
         '<input id="swal-input1" class="swal2-input" type="password" placeholder="Vecchia Pwd">' +
         '<input id="swal-input2" class="swal2-input" type="password" placeholder="Nuova Pwd">' +
         '</div>',
+        showCancelButton: true,
+        cancelButtonText: 'Annulla',
         focusConfirm: false,
         preConfirm: () => {
           let _new =document.getElementById('swal-input2') as HTMLInputElement;

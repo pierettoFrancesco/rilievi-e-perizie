@@ -108,6 +108,7 @@ export class LoginPage implements OnInit {
         autocapitalize: 'off'
       },
       showCancelButton: true,
+      cancelButtonText: 'Annulla',
       confirmButtonText: 'Recupera',
       showLoaderOnConfirm: true,
       preConfirm: (email) => {

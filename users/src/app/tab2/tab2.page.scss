@@ -87,13 +87,13 @@ ion-content{
 
 .perizia .select-parent{
     display: flex;
-    align-items: center;;
-    gap: 1rem;
+    align-items: center;
     width: 100%;
     margin:0.5rem 0;
     font-size: 0.9rem;
     color: #2D3748;
     font-weight: 500;
+    justify-content: space-between;
 }
 
 .select-parent mat-icon{

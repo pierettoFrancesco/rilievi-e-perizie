@@ -5,6 +5,7 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
 import { Platform } from '@ionic/angular';
 import { LibraryService } from './library.service';
+import { PerizieService } from './perizie.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,9 @@ export class PhotoService {
   public base64photos:any[] = [];
   public descrizione:string ="";
   public commenti:any[] = [""];
+  loading:boolean = false;
 
-  constructor(platform: Platform, public libraryService : LibraryService) {
+  constructor(platform: Platform, public libraryService : LibraryService, public perizieService:PerizieService) {
     this.platform = platform;
   }
 
@@ -27,7 +29,7 @@ export class PhotoService {
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
-      quality: 100
+      quality: 90
     });
     //Add the image at beginning of the array
     const savedImageFile = await this.savePicture(capturedPhoto);
@@ -108,6 +110,7 @@ export class PhotoService {
   }
 
   async savePerizia(){
+    this.loading = true;
     let date = new Date().toLocaleDateString("it-IT") + " " + new Date().toLocaleTimeString("it-IT");
     let photo:any = {};
     let detail :any = {};
@@ -118,36 +121,19 @@ export class PhotoService {
             "descrizione": this.descrizione}).catch((err : any) => { this.libraryService.errore(err); });
     detail = {"coordinate": coordinate, "data": date, "descrizione": this.descrizione}; 
     for(let i=0; i<this.base64photos.length; i++){
-      photo = {"img":this.base64photos[i], "commento":this.commenti[i]};
+      if(this.base64photos[i].startsWith("data:image"))
+        photo = {"img":this.base64photos[i], "commento":this.commenti[i]};
+      else
+        photo = {"img":"data:image/jpeg;base64,"+this.base64photos[i], "commento":this.commenti[i]};
       await this.libraryService.inviaRichiesta('POST', '/api/savePeriziaOnCloudinary', {photo,detail}).catch((err : any) => { this.libraryService.errore(err); });
     }
+    this.loading = false;
     this.base64photos = [];
     this.photos = [];
     this.commenti = [""];
     this.descrizione = "";
-    
+    this.perizieService.getPerizie();
   }
-  /*public async loadSaved() {
-      // Retrieve cached photo array data
-    const { value } = await Preferences.get({ key: this.PHOTO_STORAGE });
-    this.photos = (value ? JSON.parse(value) : []) as UserPhoto[];
-
-    // Easiest way to detect when running on the web:
-    // “when the platform is NOT hybrid, do this”
-    if (!this.platform.is('hybrid')) {
-      // Display the photo by reading into base64 format
-      for (let photo of this.photos) {
-        // Read each saved photo's data from the Filesystem
-        const readFile = await Filesystem.readFile({
-            path: photo.filepath,
-            directory: Directory.Data
-        });
-
-        // Web platform only: Load the photo as base64 data
-        photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
-      }
-    }
-  }*/
 }
 
 export interface UserPhoto {
