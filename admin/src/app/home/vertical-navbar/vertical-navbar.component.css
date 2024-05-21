@@ -31,8 +31,6 @@
     background-color: #A0AEC0;
     position: absolute;
     bottom: 0;
-
-
 }
 
 .navbar .title mat-icon{
@@ -41,7 +39,6 @@
     color:#2D3748;
     width:2.5rem;
     height: 2.5rem;
-
 }
 
 .navbar-list{
